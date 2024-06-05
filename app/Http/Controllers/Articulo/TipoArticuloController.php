@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Ubicacion;
+namespace App\Http\Controllers\Articulo;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ubicacion\Estante;
+use App\Models\Articulo\Tipo_articulo;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class EstanteController extends Controller
+class TipoArticuloController extends Controller
 {
     use ApiResponse;
     /**
@@ -17,8 +17,8 @@ class EstanteController extends Controller
      */
     public function index()
     {
-        $data = Estante::with('ubicacion')->get();
-        return $this->successResponse($data,'lista');
+        $dato = Tipo_articulo::all();
+        return $this->successResponse($dato,'lista');
     }
 
     /**
@@ -29,10 +29,10 @@ class EstanteController extends Controller
      */
     public function store(Request $request)
     {
-        $nuevo = Estante::create([
-            'ubicacion_id' => $request['ubicacion_id'],
-            'cant_fila' => $request['cant_fila']
+        $nuevo = Tipo_articulo::create([
+            'nombre' => $request['nombre']
         ]);
+
         return $this->successResponse($nuevo,'creado');
     }
 
@@ -40,18 +40,14 @@ class EstanteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ubicacion\Estante  $estante
+     * @param  \App\Models\Articulo\Tipo_articulo  $tipo_articulo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estante $estante)
-    {   
+    public function update(Request $request, Tipo_articulo $tipo_articulo)
+    {
         try{
-            $estante->update([
-                'ubicacion_id' => $request['ubicacion_id'],
-                'cant_fila' => $request['cant_fila']
-            ]);
-
-            return $this->successResponse($estante,'actualizado');
+            $tipo_articulo->nombre = $request['nombre'];
+            return $this->successResponse($tipo_articulo,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
         }
@@ -60,13 +56,13 @@ class EstanteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ubicacion\Estante  $estante
+     * @param  \App\Models\Articulo\Tipo_articulo  $tipo_articulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estante $estante)
+    public function destroy(Tipo_articulo $tipo_articulo)
     {
         try{
-            $estante->delete();
+            $tipo_articulo->delete();
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

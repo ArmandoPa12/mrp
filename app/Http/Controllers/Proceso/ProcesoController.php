@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Ubicacion;
+namespace App\Http\Controllers\Proceso;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ubicacion\Estante;
+use App\Models\Proceso\Proceso;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class EstanteController extends Controller
+class ProcesoController extends Controller
 {
     use ApiResponse;
     /**
@@ -17,8 +17,8 @@ class EstanteController extends Controller
      */
     public function index()
     {
-        $data = Estante::with('ubicacion')->get();
-        return $this->successResponse($data,'lista');
+        $dato = Proceso::all();
+        return $this->successResponse($dato,'lista');
     }
 
     /**
@@ -29,30 +29,32 @@ class EstanteController extends Controller
      */
     public function store(Request $request)
     {
-        $nuevo = Estante::create([
-            'ubicacion_id' => $request['ubicacion_id'],
-            'cant_fila' => $request['cant_fila']
+        $proceso = Proceso::create([
+            'nombre' => $request['nombre'],
+            'descripcion' => $request['descripcion']
         ]);
-        return $this->successResponse($nuevo,'creado');
+
+        return $this->successResponse($proceso,'creado');
     }
+
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ubicacion\Estante  $estante
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estante $estante)
-    {   
+    public function update(Request $request, Proceso $proceso)
+    {
         try{
-            $estante->update([
-                'ubicacion_id' => $request['ubicacion_id'],
-                'cant_fila' => $request['cant_fila']
+            $proceso->update([
+                'nombre' => $request['nombre'],
+                'descripcion' => $request['descripcion']
             ]);
-
-            return $this->successResponse($estante,'actualizado');
+            return $this->successResponse($proceso,'actualizado');
         }catch(\Exception $e){
+    
             return $this->notFoundResponse();
         }
     }
@@ -60,13 +62,13 @@ class EstanteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ubicacion\Estante  $estante
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estante $estante)
+    public function destroy(Proceso $proceso)
     {
         try{
-            $estante->delete();
+            $proceso->delete();
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

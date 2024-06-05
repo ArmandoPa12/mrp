@@ -1,0 +1,74 @@
+Avance
+    - Roles (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    -
+    -
+    -
+    - Usuario y Persona [al momento de crear una persona, creamos al mismo tiempo un usuario] (todo probado ver postman)
+        crear (aun no guarda imagen)
+        ver
+        editar (no se puede editar el password por el momento)
+        eliminar (AUN NO IMPLEMENTADO pero no se podra eliminar un usuario/persona si ya tiene su id en otra tabla para no corremper los datos) 
+    - el password NO se hashea(encrypta), tal cual se guarda
+    -
+    -
+    -Tipo Ubicacion (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    -
+    -
+    - Ubicacion (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    -
+    -
+    - estante (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    -
+    -
+    - Tipo Articulo (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    - Articulo (todo probado ver postman)
+        crear (material/producto cualquiera de las 2, se tiene que enviar un array con nombre material, si es materia prima el array es vacio, si es producto
+                se el array necesita id-material y cant-material requerido, mas info en el postman)
+        ver todos
+        editar (para mantener la integridad de la BD no se puede editar la columna serie| no se puede editar el tipo de articulo si la cantidad > 0)
+        eliminar (no se puede eliminar ningun articulo si la cantidad > 0)
+    -
+    -
+    - Tipo proceso (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    -
+    - Lista de proceso (no IMPLEMENTADO)
+    - Ubicacion Articulo (no IMPLEMENTADO)
+    -
+    - estado_orden_produccion (todo probado ver postman)
+        crear
+        ver todos
+        editar
+        eliminar
+    
+    
+
+
+
+
+
+    
+

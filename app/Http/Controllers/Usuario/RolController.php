@@ -35,7 +35,8 @@ class RolController extends Controller
         $validatedData = $request->validated();
         $newRol = Rol::create([
             'nombre' => $validatedData['nombre'],
-            'descripcion' => $validatedData['descripcion'],
+            'funcion' => $validatedData['funcion'],
+            'responsabilidad' => $validatedData['responsabilidad'],
         ]);
         $newRol->permisos()->attach($validatedData['permisos']);
         return $this->successResponse($newRol,'rol creado');
@@ -56,7 +57,8 @@ class RolController extends Controller
             $data = $request->validated();
             $rol->update([
                 'nombre'=> $data['nombre'],
-                'descripcion'=>$data['descripcion']
+                'funcion' => $data['funcion'],
+                'responsabilidad' => $data['responsabilidad'],
             ]);
             $rol->permisos()->sync($data['permisos']);
             return $this->successResponse($rol, 'Rol actualizado');

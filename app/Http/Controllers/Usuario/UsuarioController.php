@@ -39,16 +39,16 @@ class UsuarioController extends Controller
             'nombre' => $validado['nombre'],
             'apellido_p' => $validado['apellido_p'],
             'apellido_m' => $validado['apellido_m'],
+            'correo' => $validado['correo'],
             'nacimiento' => $validado['nacimiento'],
-            'ci' => $validado['ci']
+            'celular' => $validado['celular'],
+            'imagen' => $validado['imagen']?? ''
         ]);
         $usuario = Usuario::create([
             'rol_id' => $validado['rol_id'],
             'persona_id' => $persona->id,
-            'photo' => $validado['photo']?? null,
-            'correo' => $validado['correo'],
             'username' => $validado['username'],
-            'password' => Hash::make($validado['password']),
+            'password' => $validado['password'],
         ]);
 
         return $this->successResponse($usuario,'usuario creado');
@@ -84,13 +84,13 @@ class UsuarioController extends Controller
             'nombre' => $validado['nombre'],
             'apellido_p' => $validado['apellido_p'],
             'apellido_m' => $validado['apellido_m'],
+            'correo' => $validado['correo'],
             'nacimiento' => $validado['nacimiento'],
-            'ci' => $validado['ci']
+            'celular' => $validado['celular'],
+            'imagen' => $validado['imagen']?? ''
         ]);
         $usuario->update([
             'rol_id' => $validado['rol_id'],
-            'photo' => $validado['photo']?? null,
-            'correo' => $validado['correo'],
             'username' => $validado['username'],
         ]);
 

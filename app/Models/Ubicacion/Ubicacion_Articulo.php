@@ -5,18 +5,15 @@ namespace App\Models\Ubicacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Estante extends Model
+class Ubicacion_Articulo extends Model
 {
     use HasFactory;
-    protected $table = 'estante';
+    protected $table = 'ubicacion_articulo';
     public $timestamps = false;
     protected $fillable = [
-        'ubicacion_id', 
-        'cant_fila'
+        'estante_id',
+        'articulo_id',
+        'fila',
+        'cant_articulo',
     ];
-
-    public function ubicacion(){
-        return $this->belongsTo(Ubicacion::class,'ubicacion_id');
-    }
-    
 }

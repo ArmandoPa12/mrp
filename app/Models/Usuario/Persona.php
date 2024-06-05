@@ -15,7 +15,9 @@ class Persona extends Model
         'nombre',
         'apellido_p',
         'apellido_m',
+        'correo',
         'nacimiento',
-        'ci'
+        'celular',
+        'imagen'
     ];
 }

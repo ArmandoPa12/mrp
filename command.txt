@@ -4,3 +4,6 @@ php artisan make:model Usuario/Persona --controller --api
 
 
 php artisan make:controller Usuario/PersonaController --api --model=Usuario/Persona
+
+
+try{}catch(\Exception $e){}

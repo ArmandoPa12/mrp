@@ -16,13 +16,8 @@ class Usuario extends Authenticatable
         'id',
         'rol_id',
         'persona_id',
-        'photo',
-        'correo',
         'username',
         'password',
-        'token_reset',
-        'token_expires_at',
-        'password_reset_at'
     ];
     protected $hidden = [
         'password', 'remember_token',
@@ -38,7 +33,7 @@ class Usuario extends Authenticatable
     //     $this->attributes['password'] = Hash::make($value);
     // }
     public function username() {
-        return 'name_value';
+        return 'username';
      }
 
 

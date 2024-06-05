@@ -25,7 +25,8 @@ class UpdateRolRequest extends FormRequest
     {
         return [
             'nombre' => '',
-            'descripcion' => '',
+            'funcion' => '',
+            'responsabilidad' => '',
             'permisos' => 'array' 
         ];
     }

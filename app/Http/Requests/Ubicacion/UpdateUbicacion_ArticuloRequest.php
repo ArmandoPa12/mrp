@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Rol;
+namespace App\Http\Requests\Ubicacion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRolRequest extends FormRequest
+class UpdateUbicacion_ArticuloRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreRolRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,10 +24,7 @@ class StoreRolRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => '',
-            'funcion' => '',
-            'responsabilidad' => '',
-            'permisos' => 'array' 
+            //
         ];
     }
 }
