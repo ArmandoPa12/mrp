@@ -37,7 +37,7 @@ class ArticuloController extends Controller
             $articulo = Articulo::create([
                 'nombre' => $validado['nombre'],
                 'descripcion' => $validado['descripcion'],
-                'fecha_creacion' => now(),
+                'fecha_creacion' => $validado['fecha_creacion'],
                 'fecha_vencimiento' => $validado['fecha_vencimiento'],
                 'cantidad' => 0,
                 'imagen' => $validado['imagen'],
@@ -90,7 +90,7 @@ class ArticuloController extends Controller
             $articulo->update([
                 'nombre' => $validado['nombre'],
                 'descripcion' => $validado['descripcion'],
-                'fecha_creacion' => now(),
+                'fecha_creacion' => $validado['fecha_creacion'],
                 'fecha_vencimiento' => $validado['fecha_vencimiento'],
                 'imagen' => $validado['imagen'],
             ]);

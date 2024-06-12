@@ -48,7 +48,7 @@ class UsuarioController extends Controller
             'rol_id' => $validado['rol_id'],
             'persona_id' => $persona->id,
             'username' => $validado['username'],
-            'password' => $validado['password'],
+            'password' => Hash::make($validado['password']),
         ]);
 
         return $this->successResponse($usuario,'usuario creado');

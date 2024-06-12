@@ -15,10 +15,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
         $validado = $request->validated();
         if (Auth::attempt($validado)) {
-            $data = Usuario::where('username',$validado['username'])->get();
-            return $this->successResponse($data,'entro');
+            $datos = Usuario::where('username',$validado['username'])->first();
+            return $this->successResponse($datos,'autorizado');
         }else{
             return $this->Unauthorized();
         }
+        
     }
 }

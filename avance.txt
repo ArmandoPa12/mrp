@@ -63,6 +63,18 @@ Avance
         ver todos
         editar
         eliminar
+
+------------------------------ 20241106 ------------------------------------------
+    login IMPLEMENTADO 
+    *** AHORA SI SE HASHEA (ENCRYPTA) EL PASSWORD ***
+
+    Ubicacion articulo (todo probado ver postman)
+        crear sirve
+        ver todos sirve
+        editar no sirve no lo voy a implementar
+        eliminar no sirve no lo voy a implementar
+
+
     
     
 

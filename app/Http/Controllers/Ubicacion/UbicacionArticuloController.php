@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Ubicacion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ubicacion\Ubicacion_Articulo;
-use App\Http\Requests\StoreUbicacion_ArticuloRequest;
-use App\Http\Requests\UpdateUbicacion_ArticuloRequest;
-
+use App\Http\Requests\Ubicacion\StoreUbicacion_ArticuloRequest;
+use App\Http\Requests\Ubicacion\UpdateUbicacion_ArticuloRequest;
+use App\Traits\ApiResponse;
 class UbicacionArticuloController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      *
@@ -16,41 +17,27 @@ class UbicacionArticuloController extends Controller
      */
     public function index()
     {
-        //
+        $data = Ubicacion_Articulo::with(['estante','articulo'])->get();
+        return $this->successResponse($data,'lista');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreUbicacion_ArticuloRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreUbicacion_ArticuloRequest $request)
     {
-        //
+        $validado = $request->validated();
+        $nuevo = Ubicacion_Articulo::create($validado);
+        return $this->successResponse($nuevo);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ubicacion\Ubicacion_Articulo  $ubicacion_Articulo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ubicacion_Articulo $ubicacion_Articulo)
+    public function update(UpdateUbicacion_ArticuloRequest $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUbicacion_ArticuloRequest  $request
-     * @param  \App\Models\Ubicacion\Ubicacion_Articulo  $ubicacion_Articulo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateUbicacion_ArticuloRequest $request, Ubicacion_Articulo $ubicacion_Articulo)
-    {
-        //
+        try{
+            $validado = $request->validated();
+            $actualizado = Ubicacion_Articulo::findOrFail($id);
+            $actualizado->update($validado);
+            return $this->successResponse($actualizado ,'actualiado');
+        }catch(\Exception $e){
+            return $this->notFoundResponse();
+        }
     }
 
     /**
@@ -61,6 +48,11 @@ class UbicacionArticuloController extends Controller
      */
     public function destroy(Ubicacion_Articulo $ubicacion_Articulo)
     {
-        //
+        try{
+            $ubicacion_Articulo->delete();
+            return $this->successResponse(null,'eliminado');
+        }catch(\Exception $e){
+            return $this->notFoundResponse();
+        }
     }
 }

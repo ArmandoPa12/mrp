@@ -13,7 +13,7 @@ class StoreUbicacion_ArticuloRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreUbicacion_ArticuloRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'estante_id'=>'',
+            'articulo_id'=>'',
+            'fila'=>'',
+            'cant_articulo'=>''
         ];
     }
 }
