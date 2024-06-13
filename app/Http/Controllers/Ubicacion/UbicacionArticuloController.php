@@ -17,7 +17,7 @@ class UbicacionArticuloController extends Controller
      */
     public function index()
     {
-        $data = Ubicacion_Articulo::with(['estante','articulo'])->get();
+        $data = Ubicacion_Articulo::with(['estante.ubicacion','articulo'])->get();
         return $this->successResponse($data,'lista');
     }
 

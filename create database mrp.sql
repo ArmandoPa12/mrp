@@ -141,10 +141,10 @@ create table lista_proceso
 (
 	producto_id integer,
 	proceso_id integer,
-	lista_materiales_id integer not null,
+	lista_materiales_id integer null,
 	paso integer not null,
 	tiempo time not null,
-	foreign key (producto_id) references usuario(id)on delete cascade on update cascade,
+	foreign key (producto_id) references articulo_id(id)on delete cascade on update cascade,
 	foreign key (proceso_id) references articulo(id)on delete cascade on update cascade,
 	foreign key (lista_materiales_id) references lista_materiales(id)on delete cascade on update cascade
 );
@@ -159,32 +159,40 @@ create table ubicacion_articulo
 	foreign key (articulo_id) references articulo(id)on delete cascade on update cascade
 );
 
-CREATE OR REPLACE FUNCTION actualizar_cantidad_articulo()
+CREATE OR REPLACE FUNCTION actualizar_cant_estantes()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Si se realiza una inserción
     IF TG_OP = 'INSERT' THEN
-        UPDATE articulo
-        SET cantidad = cantidad + NEW.cant_articulo
-        WHERE id = NEW.articulo_id;
+        UPDATE ubicacion
+        SET cant_estantes = cant_estantes + 1
+        WHERE id = NEW.ubicacion_id;
     -- Si se realiza una eliminación
     ELSIF TG_OP = 'DELETE' THEN
-        UPDATE articulo
-        SET cantidad = cantidad - OLD.cant_articulo
-        WHERE id = OLD.articulo_id;
+        UPDATE ubicacion
+        SET cant_estantes = cant_estantes - 1
+        WHERE id = OLD.ubicacion_id;
     -- Si se realiza una actualización
     ELSIF TG_OP = 'UPDATE' THEN
-        UPDATE articulo
-        SET cantidad = cantidad - OLD.cant_articulo + NEW.cant_articulo
-        WHERE id = NEW.articulo_id;
+        -- Primero, restar de la ubicación anterior
+        IF OLD.ubicacion_id IS DISTINCT FROM NEW.ubicacion_id THEN
+            UPDATE ubicacion
+            SET cant_estantes = cant_estantes - 1
+            WHERE id = OLD.ubicacion_id;
+            -- Luego, sumar a la nueva ubicación
+            UPDATE ubicacion
+            SET cant_estantes = cant_estantes + 1
+            WHERE id = NEW.ubicacion_id;
+        END IF;
     END IF;
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER trigger_actualizar_cantidad_articulo
-AFTER INSERT OR UPDATE OR DELETE ON ubicacion_articulo
+
+CREATE TRIGGER trigger_actualizar_cant_estantes
+AFTER INSERT OR UPDATE OR DELETE ON estante
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_cantidad_articulo();
+EXECUTE FUNCTION actualizar_cant_estantes();
 
 -- +++++++++
 create table estado_orden_produccion
@@ -325,7 +333,9 @@ insert into proceso(nombre,descripcion)values('cortado','estado para cortar');
 insert into proceso(nombre,descripcion)values('pintado','estado para pintar');
 insert into proceso(nombre,descripcion)values('secado','estado para secar');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
--- lista de proceso
+insert into lista_proceso(producto_id,proceso_id,lista_materiales_id,paso,tiempo)values(3,1,1,1,'01:00:00');
+insert into lista_proceso(producto_id,proceso_id,lista_materiales_id,paso,tiempo)values(3,2,2,2,'00:15:00');
+insert into lista_proceso(producto_id,proceso_id,paso,tiempo)values(3,3,3,'00:30:00');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 insert into ubicacion_articulo(estante_id,articulo_id,fila,cant_articulo)values(1,1,1,7);  -- revisar
 -- +++++++++++++++++++++++++++++++++++++++++++++++
@@ -342,7 +352,7 @@ insert into orden_produccion(usuario_id_ge,usuario_id_tr,estado_produccion_id,fe
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 -- +++++++++++++++++++++++++++++++++++++++++++++++
-select * from ubicacion_articulo
+select * from articulo
 
 
 
@@ -352,7 +362,7 @@ select * from ubicacion_articulo
 
 
 
-
+delete actualizar_cant_estantes ON estantes;
 DROP TABLE IF EXISTS lista_proceso;
 DROP TABLE IF EXISTS ubicacion_articulo;
 DROP TABLE IF EXISTS orden_produccion;

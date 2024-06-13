@@ -12,6 +12,7 @@ use App\Http\Controllers\Ubicacion\UbicacionArticuloController;
 use App\Http\Controllers\Ubicacion\UbicacionController;
 use App\Http\Controllers\Usuario\RolController;
 use App\Http\Controllers\Usuario\UsuarioController;
+use App\Http\Controllers\Usuario\PermisoController;
 use App\Models\Articulo\Articulo;
 use App\Models\Articulo\Tipo_Articulo;
 use App\Models\Proceso\Lista_Proceso;
@@ -40,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/rol',RolController::class)->parameter('roles','rol');
+Route::apiResource('/permiso',PermisoController ::class)->parameter('permisos','permiso');
 Route::apiResource('/usuario',UsuarioController::class)->parameter('usuarios','usuario');
 Route::apiResource('/tipo-ubicacion',TipoUbicacionController::class)->parameter('tubicaciones','tubicacion');
 Route::apiResource('/ubicacion',UbicacionController::class)->parameter('ubicaciones','ubicacion');
