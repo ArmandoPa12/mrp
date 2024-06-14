@@ -71,8 +71,8 @@ Avance
     Ubicacion articulo (todo probado ver postman)
         crear sirve
         ver todos sirve
-        editar no sirve no lo voy a implementar
-        eliminar no sirve no lo voy a implementar
+        editar no sirve no lo voy a implementar NO IMPLEMENTAR FRONTEND
+        eliminar no sirve no lo voy a implementar NO IMPLEMENTAR FRONTEND
 
 
 ------------------------------ 20241206 ------------------------------------------
@@ -85,13 +85,38 @@ Avance
 ------------------------------ 20241306 ------------------------------------------
     script SQL actualizado
     -
-    proveedor
+    proveedor (todo probado ver postman)
+        lista
+        crear
+        editar
+        eliminar
     -
     -
-    Estado orden compra
+    Estado orden compra  (todo probado ver postman)
+        lista
+        crear
+        editar
+        eliminar
     -
     -
-    orden compra 
+    orden compra (todo probado ver postman)
+        lista
+        crear
+        editar
+        eliminar
+        [pdf_data  file_name  mime_type] - no imlpementado  
+
+    orden produccion (todo probado ver postman)
+        lista
+        crear
+        editar
+        eliminar
+        [pdf_data  file_name  mime_type] - no imlpementado  
+    -
+    -
+    aun no esta implementado subir imagenes
+    
+
 
 
 

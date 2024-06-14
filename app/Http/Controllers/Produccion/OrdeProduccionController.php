@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Compra;
+namespace App\Http\Controllers\Produccion;
 
 use App\Http\Controllers\Controller;
-use App\Models\Compra\Estado_Orden_Compra;
+use App\Models\Produccion\Orden_Produccion;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class EstadoOrdenCompraController extends Controller
+class OrdeProduccionController extends Controller
 {
     use ApiResponse;
     /**
@@ -17,8 +17,9 @@ class EstadoOrdenCompraController extends Controller
      */
     public function index()
     {
-        $datos = Estado_Orden_Compra::all();
-        return $this->successResponse($datos,'lista');
+        $data = Orden_Produccion::with(['usuarioGenerado','usuarioTrabajador','estadoProduccion'])->get();
+        return $this->successResponse($data,'lista');
+
     }
 
     /**
@@ -29,7 +30,7 @@ class EstadoOrdenCompraController extends Controller
      */
     public function store(Request $request)
     {
-        $nuevo = Estado_Orden_Compra::create($request->all());
+        $nuevo = Orden_Produccion::create($request->all());
         return $this->successResponse($nuevo,'creado');
     }
 
@@ -38,17 +39,15 @@ class EstadoOrdenCompraController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Compra\Estado_Orden_Compra  $estado_Orden_Compra
+     * @param  \App\Models\Produccion\Orden_Produccion  $orden_Produccion
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         try{
-            $estado_Orden_Compra = Estado_Orden_Compra::findOrFail($id);
-            $estado_Orden_Compra->update([
-                'descripcion' => $request->descripcion
-            ]);
-            return $this->successResponse($estado_Orden_Compra,'actualizado');
+            $orden_Produccion = Orden_Produccion::findOrFail($id);
+            $orden_Produccion->update($request->all());
+            return $this->successResponse($orden_Produccion,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
         }
@@ -57,14 +56,14 @@ class EstadoOrdenCompraController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Compra\Estado_Orden_Compra  $estado_Orden_Compra
+     * @param  \App\Models\Produccion\Orden_Produccion  $orden_Produccion
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         try{
-            $estado_Orden_Compra = Estado_Orden_Compra::findOrFail($id);
-            $estado_Orden_Compra->delete();
+            $orden_Produccion = Orden_Produccion::findOrFail($id);
+            $orden_Produccion->delete();
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

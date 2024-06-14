@@ -9,6 +9,7 @@ use App\Http\Controllers\Compra\ProveedorController;
 use App\Http\Controllers\Proceso\ListaProcesoController;
 use App\Http\Controllers\Proceso\ProcesoController;
 use App\Http\Controllers\Produccion\EstadoProduccionController;
+use App\Http\Controllers\Produccion\OrdeProduccionController;
 use App\Http\Controllers\Ubicacion\EstanteController;
 use App\Http\Controllers\Ubicacion\TipoUbicacionController;
 use App\Http\Controllers\Ubicacion\UbicacionArticuloController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Usuario\PermisoController;
 use App\Models\Articulo\Articulo;
 use App\Models\Articulo\Tipo_Articulo;
 use App\Models\Proceso\Lista_Proceso;
+use App\Models\Produccion\Orden_Produccion;
 use App\Models\Ubicacion\Estante;
 use App\Models\Ubicacion\Tipo_Ubicacion;
 use App\Models\Ubicacion\Ubicacion;
@@ -55,10 +57,11 @@ Route::apiResource('/ubicacion-articulo',UbicacionArticuloController::class)->pa
 Route::apiResource('/proceso',ProcesoController::class)->parameter('procesos','proceso');
 Route::apiResource('/lista-proceso',ListaProcesoController::class)->parameter('lprocesos','lproceso');
 Route::apiResource('/estado-produccion',EstadoProduccionController::class)->parameter('tproducciones','tproduccion');
-//---
+Route::apiResource('/orden-produccion',OrdeProduccionController::class)->parameter('oproducciones','oproduccion');
 Route::apiResource('/estado-orden-compra',EstadoOrdenCompraController::class)->parameter('tordenes','torden');
 Route::apiResource('/proveedor',ProveedorController::class)->parameter('proveedores','proveedor');
 Route::apiResource('/orden-compra',OrdenCompraController::class)->parameter('compras','compra');
+
 
 
 

@@ -40,9 +40,10 @@ class OrdenCompraController extends Controller
      * @param  \App\Models\Compra\Orden_Compra  $orden_Compra
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Orden_Compra $orden_Compra)
+    public function update(Request $request, $id)
     {
         try{
+            $orden_Compra = Orden_Compra::findOrFail($id);
             $orden_Compra->update($request->all());
             return $this->successResponse($orden_Compra,'actualizado');
         }catch(\Exception $e){
@@ -56,9 +57,10 @@ class OrdenCompraController extends Controller
      * @param  \App\Models\Compra\Orden_Compra  $orden_Compra
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Orden_Compra $orden_Compra)
+    public function destroy($id)
     {
         try{
+            $orden_Compra = Orden_Compra::findOrFail($id);
             $orden_Compra->delete();
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
