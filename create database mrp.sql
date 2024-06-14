@@ -355,15 +355,18 @@ insert into estado_orden_compra(descripcion)values('enviado');
 insert into estado_orden_compra(descripcion)values('recibido');
 insert into estado_orden_compra(descripcion)values('cancelado');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
+insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(1,2,1,1,now());
+insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(2,1,1,2,now());
+insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(1,2,2,3,now());
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 -- +++++++++++++++++++++++++++++++++++++++++++++++
-select * from estado_orden_compra
+select * from orden_compra
 
 select * from articulo
 
 
 
-
+	
 
 
 
