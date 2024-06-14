@@ -75,13 +75,26 @@ Avance
         eliminar no sirve no lo voy a implementar
 
 
------------------------------- 20241206 ------------------- -----------------------
+------------------------------ 20241206 ------------------------------------------
     Permiso (todo probado ver postman)
     ver lista 
     ver por id
     solo implemente ver porque no se puede editar-creara-eliminar ninguno   
     -
     -
+------------------------------ 20241306 ------------------------------------------
+    script SQL actualizado
+    -
+    proveedor
+    -
+    -
+    Estado orden compra
+    -
+    -
+    orden compra 
+
+
+
 
 
 

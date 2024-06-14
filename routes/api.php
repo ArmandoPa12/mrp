@@ -3,6 +3,9 @@
 use App\Http\Controllers\Articulo\ArticuloController;
 use App\Http\Controllers\Articulo\TipoArticuloController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Compra\EstadoOrdenCompraController;
+use App\Http\Controllers\Compra\OrdenCompraController;
+use App\Http\Controllers\Compra\ProveedorController;
 use App\Http\Controllers\Proceso\ListaProcesoController;
 use App\Http\Controllers\Proceso\ProcesoController;
 use App\Http\Controllers\Produccion\EstadoProduccionController;
@@ -52,6 +55,10 @@ Route::apiResource('/ubicacion-articulo',UbicacionArticuloController::class)->pa
 Route::apiResource('/proceso',ProcesoController::class)->parameter('procesos','proceso');
 Route::apiResource('/lista-proceso',ListaProcesoController::class)->parameter('lprocesos','lproceso');
 Route::apiResource('/estado-produccion',EstadoProduccionController::class)->parameter('tproducciones','tproduccion');
+//---
+Route::apiResource('/estado-orden-compra',EstadoOrdenCompraController::class)->parameter('tordenes','torden');
+Route::apiResource('/proveedor',ProveedorController::class)->parameter('proveedores','proveedor');
+Route::apiResource('/orden-compra',OrdenCompraController::class)->parameter('compras','compra');
 
 
 

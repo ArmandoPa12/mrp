@@ -144,7 +144,7 @@ create table lista_proceso
 	lista_materiales_id integer null,
 	paso integer not null,
 	tiempo time not null,
-	foreign key (producto_id) references articulo_id(id)on delete cascade on update cascade,
+	foreign key (producto_id) references articulo(id)on delete cascade on update cascade,
 	foreign key (proceso_id) references articulo(id)on delete cascade on update cascade,
 	foreign key (lista_materiales_id) references lista_materiales(id)on delete cascade on update cascade
 );
@@ -229,7 +229,6 @@ create table proveedor
 create table estado_orden_compra
 (
 	id serial primary key,
-	nombre varchar(100) not null,
 	descripcion varchar(50)
 );
 create table orden_compra
@@ -348,12 +347,19 @@ insert into estado_orden_produccion(descripcion)values('cancelado');
 insert into orden_produccion(usuario_id_ge,usuario_id_tr,estado_produccion_id,fechar_hora)values(1,2,1,now());
 insert into orden_produccion(usuario_id_ge,usuario_id_tr,estado_produccion_id,fechar_hora)values(2,1,2,now());
 -- +++++++++++++++++++++++++++++++++++++++++++++++
+insert into proveedor(articulo_id,nombre,apellido,celular,empresa)values(2,'Jorge','Pereira','71100025','Ferrum');
+insert into proveedor(articulo_id,nombre,apellido,celular,empresa)values(1,'Maria','Rufino','7185525','Barraca Maria');
+-- +++++++++++++++++++++++++++++++++++++++++++++++
+insert into estado_orden_compra(descripcion)values('creado');
+insert into estado_orden_compra(descripcion)values('enviado');
+insert into estado_orden_compra(descripcion)values('recibido');
+insert into estado_orden_compra(descripcion)values('cancelado');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 -- +++++++++++++++++++++++++++++++++++++++++++++++
--- +++++++++++++++++++++++++++++++++++++++++++++++
-select * from articulo
+select * from estado_orden_compra
 
+select * from articulo
 
 
 
