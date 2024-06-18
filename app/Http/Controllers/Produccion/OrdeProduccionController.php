@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Produccion;
 use App\Http\Controllers\Controller;
 use App\Models\Produccion\Orden_Produccion;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 
 class OrdeProduccionController extends Controller
 {
     use ApiResponse;
+    use Bitacora;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Orden_Produccion::with(['usuarioGenerado','usuarioTrabajador','estadoProduccion'])->get();
+        $this->verListaBitacoraExitosa('ORDEN-PRODUCCION',null,$request->header());
         return $this->successResponse($data,'lista');
 
     }
@@ -31,6 +34,7 @@ class OrdeProduccionController extends Controller
     public function store(Request $request)
     {
         $nuevo = Orden_Produccion::create($request->all());
+        $this->crearBitacoraExitosa('ORDEN-PRODUCCION',$nuevo->id,$request->header());
         return $this->successResponse($nuevo,'creado');
     }
 
@@ -47,6 +51,7 @@ class OrdeProduccionController extends Controller
         try{
             $orden_Produccion = Orden_Produccion::findOrFail($id);
             $orden_Produccion->update($request->all());
+            $this->actualizarBitacoraExitosa('ORDEN-PRODUCCION',$id,$request->header());
             return $this->successResponse($orden_Produccion,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -59,11 +64,12 @@ class OrdeProduccionController extends Controller
      * @param  \App\Models\Produccion\Orden_Produccion  $orden_Produccion
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         try{
             $orden_Produccion = Orden_Produccion::findOrFail($id);
             $orden_Produccion->delete();
+            $this->eliminarBitacoraExitosa('ORDEN-PRODUCCION',$id,$request->header());
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

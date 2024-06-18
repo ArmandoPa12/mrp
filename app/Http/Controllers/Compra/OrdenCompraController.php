@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Compra;
 use App\Http\Controllers\Controller;
 use App\Models\Compra\Orden_Compra;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 
 class OrdenCompraController extends Controller
 {
     use ApiResponse;
+    use Bitacora;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $datos = Orden_Compra::with(['usuarioGenerado','usuarioGestor','proveedor','estadoCompra'])->get();
+        $this->verListaBitacoraExitosa('ORDEN-COMPRA',null,$request->header());
         return $this->successResponse($datos); 
     }
 
@@ -30,6 +33,7 @@ class OrdenCompraController extends Controller
     public function store(Request $request)
     {
         $datos = Orden_Compra::create($request->all());
+        $this->crearBitacoraExitosa('ORDEN-COMPRA',$datos->id,$request->header());
         return $this->successResponse($datos,'creaado');
     }
 
@@ -45,6 +49,7 @@ class OrdenCompraController extends Controller
         try{
             $orden_Compra = Orden_Compra::findOrFail($id);
             $orden_Compra->update($request->all());
+            $this->actualizarBitacoraExitosa('ORDEN-COMPRA',$id,$request->header());
             return $this->successResponse($orden_Compra,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -57,11 +62,12 @@ class OrdenCompraController extends Controller
      * @param  \App\Models\Compra\Orden_Compra  $orden_Compra
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         try{
             $orden_Compra = Orden_Compra::findOrFail($id);
             $orden_Compra->delete();
+            $this->eliminarBitacoraExitosa('ORDEN-COMPRA',$id,$request->header());
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

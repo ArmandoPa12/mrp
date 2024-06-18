@@ -115,7 +115,20 @@ Avance
     -
     -
     aun no esta implementado subir imagenes
+
+------------------------------ 20241706 ------------------------------------------
+
+    articulo
+        -crear
+        -editar
+        -eliminar [si la cantidad de articulo es mayor a 0, no se puede borrar]
     
+    ubicacion
+        -crear
+        -editar
+        -eliminar [si en la ubicacion la cantidad de estantes es mayor a 0, no se puede borrar]
+
+    endpoint logout
 
 
 

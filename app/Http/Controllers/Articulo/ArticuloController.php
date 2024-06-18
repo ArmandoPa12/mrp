@@ -7,19 +7,22 @@ use App\Http\Requests\Articulo\StoreArticuloRequest;
 use App\Http\Requests\Articulo\UpdateArticuloRequest;
 use App\Models\Articulo\Articulo;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ArticuloController extends Controller
 {   use ApiResponse;
+    use Bitacora;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Articulo::orderBy('id','asc')->with(['tipo', 'materiales'])->get();
+        $this->logBitacora('VER LISTA','ARTICULO','EXITOSO',NULL,$request->header());
         return $this->successResponse($data,'lista');
     }
 
@@ -50,8 +53,13 @@ class ArticuloController extends Controller
                     $materialesData[$material['id']] = ['cantidad' => $material['cantidad']];
                 }
                 $articulo->materiales()->sync($materialesData);
+                $this->logBitacora('CREAR','PRODUCTO','EXITOSO',$articulo->id,$request->header());
+            }else{
+                $this->logBitacora('CREAR','ARTICULO','EXITOSO',$articulo->id,$request->header());
             }
             DB::commit();
+            $this->logBitacora('CREAR','ARTICULO','EXITOSO',NULL,$request->header());
+
             return $this->successResponse($articulo);
         }catch(\Exception $e){
             // DB::rollBack();
@@ -67,9 +75,10 @@ class ArticuloController extends Controller
      * @param  \App\Models\Articulo\Articulo  $articulo
      * @return \Illuminate\Http\Response
      */
-    public function show(Articulo $articulo)
+    public function show(Request $request,Articulo $articulo)
     {
         try{
+            $this->logBitacora('VER','ARTICULO','EXITOSO',$articulo->id,$request->header());
             return $this->successResponse($articulo);
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -100,6 +109,9 @@ class ArticuloController extends Controller
                     $materialesData[$material['id']] = ['cantidad' => $material['cantidad']];
                 }
                 $articulo->materiales()->sync($materialesData);
+                $this->logBitacora('ACTUALIZAR','PRODUCTO','EXITOSO',$articulo->id,$request->header());
+            }else{
+                $this->logBitacora('ACTUALIZAR','ARTICULO','EXITOSO',$articulo->id,$request->header());
             }
             DB::commit();
             return $this->successResponse($articulo);
@@ -114,16 +126,18 @@ class ArticuloController extends Controller
      * @param  \App\Models\Articulo\Articulo  $articulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Articulo $articulo)
+    public function destroy(Request $request,Articulo $articulo)
     {
         try{
             if($articulo->cantidad>0){
                 return $this->Unauthorized();
             }
+            $copiaId = $articulo->id;
             DB::beginTransaction();
             $articulo->materiales()->delete();
             $articulo->delete();
             DB::commit();
+            $this->logBitacora('ELIMINAR','ARTICULO','EXITOSO',$copiaId,$request->header());
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             DB::rollBack();

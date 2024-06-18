@@ -8,6 +8,7 @@ use App\Http\Requests\Usuario\UpdateUsuarioRequest;
 use App\Models\Usuario\Persona;
 use App\Models\Usuario\Usuario;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +16,16 @@ use Illuminate\Support\Facades\DB;
 class UsuarioController extends Controller
 {
     use ApiResponse;
+    use Bitacora;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Usuario::with('rol','persona')->get();
+        $this->verListaBitacoraExitosa('USUARIO',null,$request->header());
         return $this->successResponse($data,'lista usuarios');
     }
 
@@ -50,7 +53,7 @@ class UsuarioController extends Controller
             'username' => $validado['username'],
             'password' => Hash::make($validado['password']),
         ]);
-
+        $this->crearBitacoraExitosa('USUARIO',$usuario->id,$request->header());
         return $this->successResponse($usuario,'usuario creado');
     }
 
@@ -60,9 +63,10 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show(Usuario $usuario)
+    public function show(Request $request,Usuario $usuario)
     {
         try{
+            $this->verBitacoraExitosa('USUARIO',$usuario->id,$request->header());
             return $this->successResponse($usuario);
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -93,7 +97,7 @@ class UsuarioController extends Controller
             'rol_id' => $validado['rol_id'],
             'username' => $validado['username'],
         ]);
-
+        $this->actualizarBitacoraExitosa('USUARIO',$usuario->id,$request->header());
         return $this->successResponse($usuario,'usuario actualizado');
 
         }catch(\Exception $e){
@@ -107,14 +111,14 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuario $usuario)
+    public function destroy(Request $request, Usuario $usuario)
     {
         try{
             DB::beginTransaction();
             $usuario->persona()->delete();
             $usuario->delete();
             DB::commit();
-
+            $this->eliminarBitacoraExitosa('USUARIO',$usuario->id,$request->header());
             return $this->successResponse(null,'usuario eliminado');
         }catch(\Exception $e){
             DB::rollBack();

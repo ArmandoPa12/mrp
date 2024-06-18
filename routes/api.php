@@ -68,6 +68,7 @@ Route::apiResource('/orden-compra',OrdenCompraController::class)->parameter('com
 
 
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/logout',[AuthController::class,'logout']);
 
 
 Route::get('/test',function(){

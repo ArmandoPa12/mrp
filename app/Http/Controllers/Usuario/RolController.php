@@ -6,20 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Rol\StoreRolRequest;
 use App\Http\Requests\Rol\UpdateRolRequest;
 use App\Models\Usuario\Rol;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 
 class RolController extends Controller
 {
+    use Bitacora;
     use ApiResponse;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $roles = Rol::orderBy('id','asc')->with('permisos')->get();
+        $this->verListaBitacoraExitosa('ROL',null,$request->header());
         return $this->successResponse($roles,'roles');
         // return response()->json([$roles]);
     }
@@ -39,6 +42,7 @@ class RolController extends Controller
             'responsabilidad' => $validatedData['responsabilidad'],
         ]);
         $newRol->permisos()->attach($validatedData['permisos']);
+        $this->crearBitacoraExitosa('ROL',$newRol->id,$request->header());
         return $this->successResponse($newRol,'rol creado');
     }
 
@@ -61,6 +65,7 @@ class RolController extends Controller
                 'responsabilidad' => $data['responsabilidad'],
             ]);
             $rol->permisos()->sync($data['permisos']);
+            $this->actualizarBitacoraExitosa('ROL',$rol->id,$request->header());
             return $this->successResponse($rol, 'Rol actualizado');
         }catch (\Exception $e){
             // return $this->successResponse(null,$e,404);
@@ -79,6 +84,7 @@ class RolController extends Controller
     {
         try{
             $rol->delete();
+            $this->eliminarBitacoraExitosa('ROL',$rol->id,$request->header());
             return $this->successResponse(null,'Rol eliminado');
         }catch(\Exception $e){
             // return $this->successResponse(null,'error',404);

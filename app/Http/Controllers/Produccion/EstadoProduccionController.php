@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Produccion;
 use App\Http\Controllers\Controller;
 use App\Models\Produccion\Estado_Produccion;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 
 class EstadoProduccionController extends Controller
 {
+    use Bitacora;
     use ApiResponse;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $datos = Estado_Produccion::all();
+        $this->verListaBitacoraExitosa('ESTADO-PRODUCCION',null,$request->header());
         return $this->successResponse($datos,'lista');
     }
 
@@ -32,6 +35,7 @@ class EstadoProduccionController extends Controller
         $nuevo = Estado_Produccion::create([
             'descripcion' => $request['descripcion']
         ]);
+        $this->crearBitacoraExitosa('ESTADO-PRODUCCION',$nuevo->id,$request->header());
         return $this->successResponse($nuevo,'creado');
     }
 
@@ -50,6 +54,7 @@ class EstadoProduccionController extends Controller
             $actual->update([
                 'descripcion' => $request['descripcion']
             ]);
+            $this->actualizarBitacoraExitosa('ESTADO-PRODUCCION',$id,$request->header());
             return $this->successResponse($actual,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -62,11 +67,12 @@ class EstadoProduccionController extends Controller
      * @param  \App\Models\Produccion\Estado_Produccion  $estado_Produccion
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         try{
             $actual = Estado_Produccion::findOrFail($id);
             $actual->delete();
+            $this->eliminarBitacoraExitosa('ESTADO-PRODUCCION',$id,$request->header());
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();

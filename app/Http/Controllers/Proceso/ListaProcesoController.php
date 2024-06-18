@@ -7,19 +7,22 @@ use App\Http\Requests\Proceso\StoreListProcessRequest;
 use App\Http\Requests\Proceso\UpdateListProcessRequest;
 use App\Models\Proceso\Lista_Proceso;
 use App\Traits\ApiResponse;
+use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 
 class ListaProcesoController extends Controller
 {
     use ApiResponse;
+    use Bitacora;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Lista_Proceso::with(['proceso','producto'])->get();
+        $this->verBitacoraExitosa('LISTA-PROCESO',null,$request->header());
         return $this->successResponse($data,'lista');
     }
 
@@ -33,6 +36,7 @@ class ListaProcesoController extends Controller
     {
         $validado = $request->validated();
         $listaProceso = Lista_Proceso::create($validado);
+        $this->crearBitacoraExitosa('LISTA-PROCESO',$listaProceso->id,$request->header());
         return $this->successResponse($listaProceso,'proceso');
     }
 
@@ -42,10 +46,10 @@ class ListaProcesoController extends Controller
      * @param  \App\Models\Proceso\Lista_Proceso  $lista_Proceso
      * @return \Illuminate\Http\Response
      */
-    public function show(Lista_Proceso $lista_Proceso)
+    public function show(Request $request,Lista_Proceso $lista_Proceso)
     {
         try{
-            
+            $this->verBitacoraExitosa('LISTA-PROCESO',$lista_Proceso->id,$request->header());
             return $this->successResponse($lista_Proceso);
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -64,6 +68,7 @@ class ListaProcesoController extends Controller
         try{
             $validado = $request->validated();
             $lista_Proceso->update($validado);
+            $this->actualizarBitacoraExitosa('LISTA-PROCESO',$lista_Proceso->id,$request->header());
             return $this->successResponse($lista_Proceso,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
@@ -76,10 +81,12 @@ class ListaProcesoController extends Controller
      * @param  \App\Models\Proceso\Lista_Proceso  $lista_Proceso
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lista_Proceso $lista_Proceso)
+    public function destroy(Request $request, Lista_Proceso $lista_Proceso)
     {
         try{
+            $c = $lista_Proceso->id;
             $lista_Proceso->delete();
+            $this->eliminarBitacoraExitosa('LISTA-PROCESO',$c,$request->header());
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
