@@ -32,11 +32,31 @@ class ListaProcesoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreListProcessRequest $request)
+    public function store(Request $request)
     {
-        $validado = $request->validated();
-        $listaProceso = Lista_Proceso::create($validado);
-        $this->crearBitacoraExitosa('LISTA-PROCESO',$listaProceso->id,$request->header());
+        $validado = $request->validate([
+            'producto_id' => 'required|integer',
+            'proceso' => 'required|array',
+            'proceso.*.id' => 'required|integer',
+            'proceso.*.paso' => 'required|integer',
+            'proceso.*.tiempo' => 'required|date_format:H:i:s',
+        ]);
+
+        $procesosData = [];
+        foreach ($validado['proceso'] as $proceso) {
+            $procesosData[] = [
+                'producto_id' => $validado['producto_id'],
+                'proceso_id' => $proceso['id'],
+                'paso' => $proceso['paso'],
+                'tiempo' => $proceso['tiempo'],
+            ];
+        }
+        // $validado = $request->validated();
+        // $listaProceso = Lista_Proceso::create($validado);
+        $listaProceso = Lista_Proceso::insert($procesosData);
+        foreach ($procesosData as $procesoData) {
+            $this->crearBitacoraExitosa('LISTA-PROCESO', $procesoData['producto_id'], $request->header());
+        }
         return $this->successResponse($listaProceso,'proceso');
     }
 

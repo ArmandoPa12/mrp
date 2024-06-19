@@ -71,10 +71,10 @@ class UbicacionController extends Controller
     {
         try{
             $c=$ubicacion->id;
-            if($ubicacion->cant_estantes > 0){
-                $this->logBitacora('ELIMINAR','UBICACION','FALLIDO',$c,$request->header());
-                return $this->Unauthorized();
-            }
+            // if($ubicacion->cant_estantes > 0){
+            //     $this->logBitacora('ELIMINAR','UBICACION','FALLIDO',$c,$request->header());
+            //     return $this->Unauthorized();
+            // }
             $updated = $request->validated();
             $ubicacion->update($updated);
             $this->eliminarBitacoraExitosa('UBICACION',$c,$request->header());
@@ -94,9 +94,9 @@ class UbicacionController extends Controller
     public function destroy(Request $request, Ubicacion $ubicacion)
     {
         try{
-            if($ubicacion->cant_estantes > 0){
-                return $this->Unauthorized();
-            }
+            // if($ubicacion->cant_estantes > 0){
+            //     return $this->Unauthorized();
+            // }
             $ubicacion->delete();
             return $this->successResponse(null,'eliminado');
         }catch(\Exception $e){
