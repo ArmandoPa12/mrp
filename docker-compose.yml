@@ -13,15 +13,20 @@ services:
     volumes:
       - .:/var/www/html
     environment:
+      - APP_NAME=Laravel
       - APP_ENV=local
+      - APP_KEY=base64:B21wa71POtHM678/aZso3oavVAUwkYXKzO/Hx3sJptQ=
       - APP_DEBUG=true
-      - APP_KEY=base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - APP_URL=http://localhost
+      - LOG_CHANNEL=stack
+      - LOG_DEPRECATIONS_CHANNEL=null
+      - LOG_LEVEL=debug
       - DB_CONNECTION=pgsql
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_DATABASE=nombre-de-tu-base-de-datos
-      - DB_USERNAME=nombre-de-usuario
-      - DB_PASSWORD=contraseña
+      - DB_DATABASE=mrp
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=admin
 
   db:
     image: postgres:16
@@ -29,9 +34,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=nombre-de-tu-base-de-datos
-      - POSTGRES_USER=nombre-de-usuario
-      - POSTGRES_PASSWORD=contraseña
+      - POSTGRES_DB=mrp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts:/docker-entrypoint-initdb.d
