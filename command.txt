@@ -7,3 +7,48 @@ php artisan make:controller Usuario/PersonaController --api --model=Usuario/Pers
 
 
 try{}catch(\Exception $e){}
+
+
+
+# Verifica que los contenedores estén corriendo
+docker-compose ps
+
+# Accede a la consola del contenedor de la aplicación
+docker-compose exec app bash
+
+# Dentro del contenedor, ejecuta un comando Artisan
+php artisan migrate:status
+
+# Sal de la consola del contenedor
+exit
+
+
+
+-------------------------------------------
+docker-compose logs db
+
+
+# Conectar al contenedor de PostgreSQL
+docker-compose exec db psql -U postgres -d mrp
+
+# Listar todas las tablas
+\dt
+
+# Verificar el contenido de una tabla específica
+SELECT * FROM users;
+
+# Salir de PostgreSQL
+\q
+
+
+------------------------------
+docker-compose up --build -d
+
+docker-compose down
+docker-compose down -v
+
+docker-compose logs db
+
+status
+docker-compose ps
+

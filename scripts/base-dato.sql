@@ -159,40 +159,6 @@ create table ubicacion_articulo
 	foreign key (articulo_id) references articulo(id)on delete cascade on update cascade
 );
 
-CREATE OR REPLACE FUNCTION actualizar_cant_estantes()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Si se realiza una inserción
-    IF TG_OP = 'INSERT' THEN
-        UPDATE ubicacion
-        SET cant_estantes = cant_estantes + 1
-        WHERE id = NEW.ubicacion_id;
-    -- Si se realiza una eliminación
-    ELSIF TG_OP = 'DELETE' THEN
-        UPDATE ubicacion
-        SET cant_estantes = cant_estantes - 1
-        WHERE id = OLD.ubicacion_id;
-    -- Si se realiza una actualización
-    ELSIF TG_OP = 'UPDATE' THEN
-        -- Primero, restar de la ubicación anterior
-        IF OLD.ubicacion_id IS DISTINCT FROM NEW.ubicacion_id THEN
-            UPDATE ubicacion
-            SET cant_estantes = cant_estantes - 1
-            WHERE id = OLD.ubicacion_id;
-            -- Luego, sumar a la nueva ubicación
-            UPDATE ubicacion
-            SET cant_estantes = cant_estantes + 1
-            WHERE id = NEW.ubicacion_id;
-        END IF;
-    END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_actualizar_cant_estantes
-AFTER INSERT OR UPDATE OR DELETE ON estante
-FOR EACH ROW
-EXECUTE FUNCTION actualizar_cant_estantes();
 
 -- +++++++++
 create table estado_orden_produccion
