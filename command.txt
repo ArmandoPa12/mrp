@@ -9,6 +9,8 @@ php artisan make:controller Usuario/PersonaController --api --model=Usuario/Pers
 try{}catch(\Exception $e){}
 
 
+crear iamge
+docker-compose up --build -d
 
 # Verifica que los contenedores estén corriendo
 docker-compose ps
@@ -52,3 +54,18 @@ docker-compose logs db
 status
 docker-compose ps
 
+sudo docker build -t ec2-mrp:v1.0 - Dockerfile .
+
+-----
+psql --version
+
+iniciar puerto
+sudo docker run -d -p 80:80 ec2-mrp:v1.0
+
+entrar build
+sudo su - postgres
+
+
+cargar script
+/home/ec2-user/mrp/scripts/base-dato.sql
+psql -f /home/ec2-user/mrp/scripts/base-dato.sql
