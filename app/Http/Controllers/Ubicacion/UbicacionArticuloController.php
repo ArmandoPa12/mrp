@@ -20,7 +20,7 @@ class UbicacionArticuloController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Ubicacion_Articulo::with(['estante.ubicacion','articulo'])->get();
+        $data = Ubicacion_Articulo::with(['estante.ubicacion','articulo.materiales', 'articulo.tipo'])->get();
         $this->verListaBitacoraExitosa('UBICACION-ARTICULO',null,$request->header());
         return $this->successResponse($data,'lista');
     }
