@@ -42,6 +42,7 @@ create table usuario
 	persona_id integer,
 	username varchar(100) not null,
 	password varchar(255) not null,
+	photo varchar(255) null,
 	foreign key (rol_id) references rol(id)on delete cascade on update cascade,
 	foreign key (persona_id) references persona(id)on delete cascade on update cascade
 );
@@ -216,43 +217,75 @@ create table orden_compra
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++
-insert into permiso(nombre)values('usuario.ver');
-insert into permiso(nombre)values('usuario.crear');
-insert into permiso(nombre)values('usuario.editar');
-insert into permiso(nombre)values('usuario.eliminar');
-insert into permiso(nombre)values('rol.ver');
-insert into permiso(nombre)values('rol.crear');
-insert into permiso(nombre)values('rol.editar');
-insert into permiso(nombre)values('rol.eliminar');
-insert into permiso(nombre)values('sucursal.ver');
-insert into permiso(nombre)values('sucursal.crear');
-insert into permiso(nombre)values('sucursal.editar');
-insert into permiso(nombre)values('sucursal.eliminar');
-insert into permiso(nombre)values('filas.ver');
-insert into permiso(nombre)values('filas.crear');
-insert into permiso(nombre)values('filas.editar');
-insert into permiso(nombre)values('filas.eliminar');
-insert into permiso(nombre)values('estantes.ver');
-insert into permiso(nombre)values('estantes.crear');
-insert into permiso(nombre)values('estantes.editar');
-insert into permiso(nombre)values('estantes.eliminar');
-insert into permiso(nombre)values('tipo-articulo.ver');
-insert into permiso(nombre)values('tipo-articulo.crear');
-insert into permiso(nombre)values('tipo-articulo.editar');
-insert into permiso(nombre)values('tipo-articulo.eliminar');
-insert into permiso(nombre)values('articulo.ver');
-insert into permiso(nombre)values('articulo.crear');
-insert into permiso(nombre)values('articulo.editar');
-insert into permiso(nombre)values('articulo.eliminar');
-insert into permiso(nombre)values('inventario.ver');
-insert into permiso(nombre)values('inventario.crear');
-insert into permiso(nombre)values('inventario.editar');
-insert into permiso(nombre)values('inventario.eliminar');
+insert into permiso(nombre)values('ver rol');
+insert into permiso(nombre)values('crear rol');
+insert into permiso(nombre)values('editar rol');
+insert into permiso(nombre)values('eliminar rol');
+
+insert into permiso(nombre)values('ver usuario');
+insert into permiso(nombre)values('crear usuario');
+insert into permiso(nombre)values('editar usuario');
+insert into permiso(nombre)values('eliminar usuario');
+
+insert into permiso(nombre)values('ver articulo');
+insert into permiso(nombre)values('crear articulo');
+insert into permiso(nombre)values('editar articulo');
+insert into permiso(nombre)values('eliminar articulo');
+
+insert into permiso(nombre)values('ver materia prima');
+insert into permiso(nombre)values('crear materia prima');
+insert into permiso(nombre)values('editar materia prima');
+insert into permiso(nombre)values('eliminar materia prima');
+
+insert into permiso(nombre)values('ver proceso');
+insert into permiso(nombre)values('crear proceso');
+insert into permiso(nombre)values('editar proceso');
+insert into permiso(nombre)values('eliminar proceso');
+
+insert into permiso(nombre)values('ver tipo ubicacion');
+insert into permiso(nombre)values('crear tipo ubicacion');
+insert into permiso(nombre)values('editar tipo ubicacion');
+insert into permiso(nombre)values('eliminar tipo ubicacion');
+
+insert into permiso(nombre)values('ver ubicacion');
+insert into permiso(nombre)values('crear ubicacion');
+insert into permiso(nombre)values('editar ubicacion');
+insert into permiso(nombre)values('eliminar ubicacion');
+
+insert into permiso(nombre)values('ver estantes');
+insert into permiso(nombre)values('crear estantes');
+insert into permiso(nombre)values('editar estantes');
+insert into permiso(nombre)values('eliminar estantes');
+
+insert into permiso(nombre)values('ver ubicacion articulo');
+insert into permiso(nombre)values('crear ubicacion articulo');
+insert into permiso(nombre)values('editar ubicacion articulo');
+insert into permiso(nombre)values('eliminar ubicacion articulo');
+
+insert into permiso(nombre)values('ver proveedores');
+insert into permiso(nombre)values('crear proveedores');
+insert into permiso(nombre)values('editar proveedores');
+insert into permiso(nombre)values('eliminar proveedores');
+
+insert into permiso(nombre)values('ver sucursal');
+insert into permiso(nombre)values('crear sucursal');
+insert into permiso(nombre)values('editar sucursal');
+insert into permiso(nombre)values('eliminar sucursal');
+
+insert into permiso(nombre)values('ver filas');
+insert into permiso(nombre)values('crear filas');
+insert into permiso(nombre)values('editar filas');
+insert into permiso(nombre)values('eliminar filas');
+
+insert into permiso(nombre)values('ver inventario');
+insert into permiso(nombre)values('crear inventario');
+insert into permiso(nombre)values('editar inventario');
+insert into permiso(nombre)values('eliminar inventario');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 insert into rol(nombre,funcion,responsabilidad) values('Administrador del sistema','Configurar y mantener el sistema MRP. Gestionar los permisos de usuario y la seguridad del sistema. Supervisar las actualizaciones y el mantenimiento del software.','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Planificador de Producción','Crear y mantener el plan maestro de producción. Determinar las necesidades de materiales basándose en las órdenes de producción. Coordinar con otros departamentos para asegurar el cumplimiento de los plazos de producción.','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Comprador','Gestionar las compras de materiales y componentes necesarios para la producción. Seleccionar y negociar con proveedores. Asegurar que los materiales se reciban a tiempo y cumplan con los estándares de calidad.','responsabilidad');
-insert into rol(nombre,funcion,responsabilidad) values('Gestor de Inventario','Mantener los niveles de inventario óptimos para evitar tanto faltantes como excesos. Controlar el movimiento de materiales dentro y fuera del almacén. Asegurar la precisión de los registros de inventario.','responsabilidad');
+insert into rol(nombre,funcion,responsabilidad) values('Gestor de Inventario','Mantener los niveles de inventario óptimos para evitar tanto faltantes como excesos. Controlar el movimiento de materiales dentro y fuera del almacén. Asegurar la precisión de los registros de ','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Supervisor de Producción','Supervisar las operaciones diarias de producción. Asegurar que la producción se realice según el plan establecido. Resolver problemas operativos y asegurar la calidad del producto.','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Ingeniero de Procesos','Diseñar y mejorar los procesos de producción. Asegurar que los procesos sean eficientes y cumplan con los estándares de calidad.','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Reponedor','Se encarga de reponer el inventario y articulos','responsabilidad');
@@ -266,8 +299,8 @@ insert into rol_permiso(rol_id,permiso_id)values(1,4);
 insert into persona(nombre,apellido_p,apellido_m,correo,nacimiento,celular,imagen)values('admin','root','root','a@g.com',now(),'70015141','raiz/iamgen'); --1
 insert into persona(nombre,apellido_p,apellido_m,correo,nacimiento,celular,imagen)values('Jose','Garcia','Robles','b@g.com',now(),'70025252','raiz/iamgen2'); --2
 -- +++++++++++++++++++++++++++++++++++++++++++++++
-insert into usuario(persona_id,rol_id,username,password)values(1,1,'root','123456');
-insert into usuario(persona_id,rol_id,username,password)values(2,2,'admin','123456');
+insert into usuario(persona_id,rol_id,username,password,photo)values(1,1,'root','123456','ruta/');
+insert into usuario(persona_id,rol_id,username,password,photo)values(2,2,'admin','123456','ruta/');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 insert into tipo_ubicacion(nombre)values('tienda');
 insert into tipo_ubicacion(nombre)values('almacen');

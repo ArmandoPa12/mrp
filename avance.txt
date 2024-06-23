@@ -121,16 +121,35 @@ Avance
     articulo
         -crear
         -editar
-        -eliminar [si la cantidad de articulo es mayor a 0, no se puede borrar]
+        -eliminar 
     
     ubicacion
         -crear
         -editar
-        -eliminar [si en la ubicacion la cantidad de estantes es mayor a 0, no se puede borrar]
+        -eliminar 
 
     endpoint logout
 
+------------------------------ 20242306 ------------------------------------------
 
+    Ubicacion articulo (todo probado ver postman)
+        crear sirve
+        ver todos sirve
+        editar todo sirve
+        eliminar todo sirve
+
+    orden produccion
+        no se puede editar
+        ya se puede subir pdf, revisar como en postman
+        subir un archivo desde tu local primero para probar porque no tenemos los mismos archivos en tu maquina y la migrate
+
+    orden compra
+        no se puede editar
+        ya se puede subir pdf, revisar como en postman
+        subir un archivo desde tu local primero para probar porque no tenemos los mismos archivos en tu maquina y la migrate
+    usuario
+        se puede subir imagenes, pero no se puede editar la foto de perfil
+    
 
 
 

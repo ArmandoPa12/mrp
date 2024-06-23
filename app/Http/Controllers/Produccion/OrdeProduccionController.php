@@ -7,6 +7,7 @@ use App\Models\Produccion\Orden_Produccion;
 use App\Traits\ApiResponse;
 use App\Traits\Bitacora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OrdeProduccionController extends Controller
 {
@@ -32,8 +33,26 @@ class OrdeProduccionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $nuevo = Orden_Produccion::create($request->all());
+    {   
+        $file = $request->file('pdf_data');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        
+
+        $filePath = Storage::disk('public')->put('pdfs/produccion', $file);
+
+        $fileUrl = Storage::disk('public')->url($filePath);
+
+        $nuevo = Orden_Produccion::create([
+            'usuario_id_ge' => $request->input('usuario_id_ge'),
+            'usuario_id_tr' => $request->input('usuario_id_tr'),
+            'estado_produccion_id' => $request->input('estado_produccion_id'),
+            'fechar_hora' => $request->input('fecha_hora'),
+            'pdf_data' => $fileUrl, // Guardar la ruta del archivo
+            'file_name' => $fileName,
+            'mime_type' => $file->getClientMimeType(),
+        ]);
+
+        // $nuevo = Orden_Produccion::create($request->all());
         $this->crearBitacoraExitosa('ORDEN-PRODUCCION',$nuevo->id,$request->header());
         return $this->successResponse($nuevo,'creado');
     }

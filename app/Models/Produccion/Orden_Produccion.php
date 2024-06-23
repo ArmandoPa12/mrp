@@ -15,7 +15,10 @@ class Orden_Produccion extends Model
         'usuario_id_ge',
         'usuario_id_tr',
         'estado_produccion_id',
-        'fechar_hora'
+        'fechar_hora',
+        'pdf_data',
+        'file_name',
+        'mime_type',
     ];
     /**
      * Get the usuarioGenerado that owns the Orden_Compra

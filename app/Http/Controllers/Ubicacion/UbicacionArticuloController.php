@@ -37,7 +37,7 @@ class UbicacionArticuloController extends Controller
     {
         try{
             $actualizado = Ubicacion_Articulo::findOrFail($id);
-            // $actualizado->update($request->all());
+            $actualizado->update($request->all());
             $this->actualizarBitacoraExitosa('UBICACION-ARTICULO',$id,$request->header());
             return $this->successResponse($actualizado ,'actualiado');
         }catch(\Exception $e){
@@ -51,7 +51,7 @@ class UbicacionArticuloController extends Controller
      * @param  \App\Models\Ubicacion\Ubicacion_Articulo  $ubicacion_Articulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Request $id)
+    public function destroy(Request $request, $id)
     {
         try{
             $ubicacion_Articulo = Ubicacion_Articulo::findOrFail($id);
