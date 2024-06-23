@@ -7,6 +7,7 @@ use App\Models\Compra\Orden_Compra;
 use App\Traits\ApiResponse;
 use App\Traits\Bitacora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OrdenCompraController extends Controller
 {
@@ -32,7 +33,21 @@ class OrdenCompraController extends Controller
      */
     public function store(Request $request)
     {
-        $datos = Orden_Compra::create($request->all());
+        $file = $request->file('pdf_data');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = Storage::disk('public')->put('pdfs/compra', $file);
+        $fileUrl = Storage::disk('public')->url($filePath);
+        $datos = Orden_Compra::create([
+            'usuario_id_ge' => $request->input('usuario_id_ge'),
+            'usuario_id_ges' => $request->input('usuario_id_ges'),
+            'estado_compra_id' => $request->input('estado_compra_id'),
+            'proveedor_id' => $request->input('proveedor_id'),
+            'fecha_hora' => $request->input('fecha_hora'),
+            'pdf_data' => $fileUrl, // Guardar la ruta del archivo
+            'file_name' => $fileName,
+            'mime_type' => $file->getClientMimeType(),
+        ]);
+        // $datos = Orden_Compra::create($request->all());
         $this->crearBitacoraExitosa('ORDEN-COMPRA',$datos->id,$request->header());
         return $this->successResponse($datos,'creaado');
     }

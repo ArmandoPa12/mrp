@@ -34,6 +34,7 @@ class UpdateUsuarioRequest extends FormRequest
             'rol_id'=>'',
             'username'=>'',
             'password'=>'',
+            'photo'=>'',
         ];
     }
 }

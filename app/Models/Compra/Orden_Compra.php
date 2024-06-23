@@ -16,7 +16,10 @@ class Orden_Compra extends Model
         'usuario_id_ges',
         'proveedor_id',
         'estado_compra_id',
-        'fecha_hora'
+        'fecha_hora',
+        'pdf_data',
+        'file_name',
+        'mime_type'
     ];
     /**
      * Get the usuarioGenerado that owns the Orden_Compra

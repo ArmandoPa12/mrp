@@ -12,6 +12,7 @@ use App\Traits\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UsuarioController extends Controller
 {
@@ -38,6 +39,11 @@ class UsuarioController extends Controller
     public function store(StoreUsuarioRequest $request)
     {
         $validado = $request->validated();
+
+        $file = $request->file('photo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = Storage::disk('public')->put('perfil', $file);
+        $fileUrl = Storage::disk('public')->url($filePath);
         $persona = Persona::create([
             'nombre' => $validado['nombre'],
             'apellido_p' => $validado['apellido_p'],
@@ -51,9 +57,10 @@ class UsuarioController extends Controller
             'rol_id' => $validado['rol_id'],
             'persona_id' => $persona->id,
             'username' => $validado['username'],
+            'photo' => $fileUrl,
             'password' => Hash::make($validado['password']),
         ]);
-        $this->crearBitacoraExitosa('USUARIO',$usuario->id,$request->header());
+        // $this->crearBitacoraExitosa('USUARIO',$usuario->id,$request->header());
         return $this->successResponse($usuario,'usuario creado');
     }
 
@@ -84,6 +91,10 @@ class UsuarioController extends Controller
     {
         try{
         $validado = $request->validated();
+        // $file = $request->file('photo');
+        // // $fileName = time() . '_' . $file->getClientOriginalName();
+        // $filePath = Storage::disk('public')->put('perfil', $file);
+        // $fileUrl = Storage::disk('public')->url($filePath);
         $usuario->persona()->update([
             'nombre' => $validado['nombre'],
             'apellido_p' => $validado['apellido_p'],
@@ -95,7 +106,7 @@ class UsuarioController extends Controller
         ]);
         $usuario->update([
             'rol_id' => $validado['rol_id'],
-            'username' => $validado['username'],
+            'username' => $validado['username']
         ]);
         $this->actualizarBitacoraExitosa('USUARIO',$usuario->id,$request->header());
         return $this->successResponse($usuario,'usuario actualizado');

@@ -34,6 +34,7 @@ class StoreUsuarioRequest extends FormRequest
             'rol_id'=>'',
             'username'=>'',
             'password'=>'',
+            'photo'=>''
         ];
     }
 }

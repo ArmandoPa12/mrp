@@ -42,6 +42,7 @@ create table usuario
 	persona_id integer,
 	username varchar(100) not null,
 	password varchar(255) not null,
+	photo varchar(255) null,
 	foreign key (rol_id) references rol(id)on delete cascade on update cascade,
 	foreign key (persona_id) references persona(id)on delete cascade on update cascade
 );
@@ -266,8 +267,8 @@ insert into rol_permiso(rol_id,permiso_id)values(1,4);
 insert into persona(nombre,apellido_p,apellido_m,correo,nacimiento,celular,imagen)values('admin','root','root','a@g.com',now(),'70015141','raiz/iamgen'); --1
 insert into persona(nombre,apellido_p,apellido_m,correo,nacimiento,celular,imagen)values('Jose','Garcia','Robles','b@g.com',now(),'70025252','raiz/iamgen2'); --2
 -- +++++++++++++++++++++++++++++++++++++++++++++++
-insert into usuario(persona_id,rol_id,username,password)values(1,1,'root','123456');
-insert into usuario(persona_id,rol_id,username,password)values(2,2,'admin','123456');
+insert into usuario(persona_id,rol_id,username,password,photo)values(1,1,'root','123456','ruta/');
+insert into usuario(persona_id,rol_id,username,password,photo)values(2,2,'admin','123456','ruta/');
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 insert into tipo_ubicacion(nombre)values('tienda');
 insert into tipo_ubicacion(nombre)values('almacen');
