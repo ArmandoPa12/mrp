@@ -66,8 +66,9 @@ class UsuarioController extends Controller
     public function show(Request $request,Usuario $usuario)
     {
         try{
+            $data = Usuario::where('id',$usuario->id)->with('rol','persona')->get();
             $this->verBitacoraExitosa('USUARIO',$usuario->id,$request->header());
-            return $this->successResponse($usuario);
+            return $this->successResponse($data);
         }catch(\Exception $e){
             return $this->notFoundResponse();
         }
