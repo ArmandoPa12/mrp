@@ -1,0 +1,84 @@
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+
+
+sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install php8.2-pgsql
+sudo apt-get install composer
+sudo apt install apache2
+
+sudo apt-get install php8.[version]-pgsql
+
+sudo systemctl status apache2
+
+optional
+sudo apt install php libapache2-mod-php php-mbstring php-xmlrpc php-soap php-gd php-xml php-cli php-zip php-bcmath php-tokenizer php-json php-pear
+sudo apt-get update
+
+sudo chgrp -R www-data /var/www/html/mrp/
+sudo chmod -R 775 /var/www/html/mrp/storage
+
+para ver los sitios
+cd /etc/apache2/sites-available 
+
+crear uno nuevo
+sudo nano laravel_project.conf
+
+<VirtualHost *:80>
+    ServerName laravel
+    DocumentRoot /var/www/html/mrp/public
+ 
+    <Directory /var/www/html/mrp>
+        Options Indexes FollowSymLinks
+        AllowOverride all
+        AllowOverride All
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+ </VirtualHost>
+
+After that, disable the default configuration file of the virtual hosts in Apache with this command:
+sudo a2dissite 000-default.conf
+
+Afterwards, enable the new virtual host:
+sudo a2ensite laravel_project
+
+crear el env
+sudo nano .env 
+
+sudo php artisan key:generate
+
+sudo php artisan storage:link
+sudo php artisan config:cache
+sudo php artisan cache:clear
+sudo php artisan config:clear
+sudo systemctl restart apache2
+
+
+error 500
+APP_DEBUG=true
+APP_URL=http://3.145.59.38
+
+hasta este punto ya deberia funcionar y salir error de deberia
+
+---------------------- postgresql
+
+sudo -u postgres psql
+ver base
+\l
+
+crear
+\c mi_basedatos
+
+create database mrp;
+
+choose DB
+\c mrp
+
+
+/var/www/html/mrp/scripts/base-dato.sql
+
+
+
+
+

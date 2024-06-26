@@ -72,3 +72,10 @@ sudo su - postgres
 cargar script
 /home/ec2-user/mrp/scripts/base-dato.sql
 psql -f /home/ec2-user/mrp/scripts/base-dato.sql
+
+
+eliminar apache
+sudo apt remove apache2*
+ 
+status
+sudo systemctl status apache2
