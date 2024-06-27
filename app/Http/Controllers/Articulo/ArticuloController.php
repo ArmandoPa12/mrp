@@ -101,6 +101,7 @@ class ArticuloController extends Controller
                 'descripcion' => $validado['descripcion'],
                 'fecha_creacion' => $validado['fecha_creacion'],
                 'fecha_vencimiento' => $validado['fecha_vencimiento'],
+                'serie' => $validado['serie'],
                 'imagen' => $validado['imagen'],
             ]);
             if($validado['tipo_id'] == 2){
