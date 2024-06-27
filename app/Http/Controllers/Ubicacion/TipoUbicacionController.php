@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ubicacion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ubicacion\StoreTipoUbicacionRequest;
 use App\Http\Requests\Ubicacion\UpdateTipoUbicacionRequest;
-use App\Models\Ubicacion\Tipo_ubicacion;
+use App\Models\Ubicacion\Tipo_Ubicacion;
 use App\Traits\ApiResponse;
 use App\Traits\Bitacora;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class TipoUbicacionController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Tipo_ubicacion::orderBy('id','asc')->get();
+        $data = Tipo_Ubicacion::orderBy('id','asc')->get();
         $this->verListaBitacoraExitosa('TIPO-UBICACION',null,$request->header());
         return $this->successResponse($data,'lista de tipos de ubicacion');
     }
@@ -35,7 +35,7 @@ class TipoUbicacionController extends Controller
     public function store(StoreTipoUbicacionRequest $request)
     {
         $validado = $request->validated();
-        $nuevoTipo = Tipo_ubicacion::create($validado);
+        $nuevoTipo = Tipo_Ubicacion::create($validado);
         $this->crearBitacoraExitosa('TIPO-UBICACION',null,$request->header());
         return $this->successResponse($nuevoTipo,'creado');
     }
@@ -46,7 +46,7 @@ class TipoUbicacionController extends Controller
      * @param  \App\Models\Ubicacion\Tipo_ubicacion  $tipo_ubicacion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,Tipo_ubicacion $tipo_ubicacion)
+    public function show(Request $request,Tipo_Ubicacion $tipo_ubicacion)
     {
         try{
             $this->verBitacoraExitosa('TIPO-UBICACION',$tipo_ubicacion->id,$request->header());
@@ -63,7 +63,7 @@ class TipoUbicacionController extends Controller
      * @param  \App\Models\Ubicacion\Tipo_ubicacion  $tipo_ubicacion
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTipoUbicacionRequest $request, Tipo_ubicacion $tipo_ubicacion)
+    public function update(UpdateTipoUbicacionRequest $request, Tipo_Ubicacion $tipo_ubicacion)
     {
         try{
             $validado = $request->validated();
@@ -82,7 +82,7 @@ class TipoUbicacionController extends Controller
      * @param  \App\Models\Ubicacion\Tipo_ubicacion  $tipo_ubicacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,Tipo_ubicacion $tipo_ubicacion)
+    public function destroy(Request $request,Tipo_Ubicacion $tipo_ubicacion)
     {
         try{
             $c = $tipo_ubicacion->id;

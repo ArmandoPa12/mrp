@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Articulo;
 
 use App\Http\Controllers\Controller;
-use App\Models\Articulo\Tipo_articulo;
+use App\Models\Articulo\Tipo_Articulo;
 use App\Traits\ApiResponse;
 use App\Traits\Bitacora;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class TipoArticuloController extends Controller
      */
     public function index(Request $request)
     {
-        $dato = Tipo_articulo::all();
+        $dato = Tipo_Articulo::all();
         $this->verListaBitacoraExitosa('TIPO-ARTICULO',null,$request->header());
         return $this->successResponse($dato,'lista');
     }
@@ -32,7 +32,7 @@ class TipoArticuloController extends Controller
      */
     public function store(Request $request)
     {
-        $nuevo = Tipo_articulo::create([
+        $nuevo = Tipo_Articulo::create([
             'nombre' => $request['nombre']
         ]);
         $this->crearBitacoraExitosa('TIPO-ARTICULO',$nuevo->id,$request->header());
@@ -46,7 +46,7 @@ class TipoArticuloController extends Controller
      * @param  \App\Models\Articulo\Tipo_articulo  $tipo_articulo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tipo_articulo $tipo_articulo)
+    public function update(Request $request, Tipo_Articulo $tipo_articulo)
     {
         try{
             $tipo_articulo->nombre = $request['nombre'];
@@ -63,7 +63,7 @@ class TipoArticuloController extends Controller
      * @param  \App\Models\Articulo\Tipo_articulo  $tipo_articulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,Tipo_articulo $tipo_articulo)
+    public function destroy(Request $request,Tipo_Articulo $tipo_articulo)
     {
         try{
             $id = $tipo_articulo->id();
