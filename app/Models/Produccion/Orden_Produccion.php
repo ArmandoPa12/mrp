@@ -27,7 +27,7 @@ class Orden_Produccion extends Model
      */
     public function usuarioGenerado()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id_gen');
+        return $this->belongsTo(Usuario::class, 'usuario_id_ge');
     }
     public function usuarioTrabajador()
     {
