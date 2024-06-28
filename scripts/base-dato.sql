@@ -259,67 +259,78 @@ create table orden_compra
 insert into permiso(nombre)values('ver rol');
 insert into permiso(nombre)values('crear rol');
 insert into permiso(nombre)values('editar rol');
-insert into permiso(nombre)values('eliminar rol');
+insert into permiso(nombre)values('eliminar rol');--4
 
 insert into permiso(nombre)values('ver usuario');
 insert into permiso(nombre)values('crear usuario');
 insert into permiso(nombre)values('editar usuario');
-insert into permiso(nombre)values('eliminar usuario');
+insert into permiso(nombre)values('eliminar usuario');--8
 
 insert into permiso(nombre)values('ver articulo');
 insert into permiso(nombre)values('crear articulo');
 insert into permiso(nombre)values('editar articulo');
-insert into permiso(nombre)values('eliminar articulo');
+insert into permiso(nombre)values('eliminar articulo');--12
 
 insert into permiso(nombre)values('ver materia prima');
 insert into permiso(nombre)values('crear materia prima');
 insert into permiso(nombre)values('editar materia prima');
-insert into permiso(nombre)values('eliminar materia prima');
+insert into permiso(nombre)values('eliminar materia prima');--16
 
 insert into permiso(nombre)values('ver proceso');
 insert into permiso(nombre)values('crear proceso');
 insert into permiso(nombre)values('editar proceso');
-insert into permiso(nombre)values('eliminar proceso');
+insert into permiso(nombre)values('eliminar proceso');--20
+
+insert into permiso(nombre)values('ver lista proceso');
+insert into permiso(nombre)values('crear lista proceso');
+insert into permiso(nombre)values('editar lista proceso');
+insert into permiso(nombre)values('eliminar lista proceso');--24
 
 insert into permiso(nombre)values('ver tipo ubicacion');
 insert into permiso(nombre)values('crear tipo ubicacion');
 insert into permiso(nombre)values('editar tipo ubicacion');
-insert into permiso(nombre)values('eliminar tipo ubicacion');
+insert into permiso(nombre)values('eliminar tipo ubicacion');--28
 
 insert into permiso(nombre)values('ver ubicacion');
 insert into permiso(nombre)values('crear ubicacion');
 insert into permiso(nombre)values('editar ubicacion');
-insert into permiso(nombre)values('eliminar ubicacion');
+insert into permiso(nombre)values('eliminar ubicacion');--32
 
 insert into permiso(nombre)values('ver estantes');
 insert into permiso(nombre)values('crear estantes');
 insert into permiso(nombre)values('editar estantes');
-insert into permiso(nombre)values('eliminar estantes');
+insert into permiso(nombre)values('eliminar estantes'); --36
 
 insert into permiso(nombre)values('ver ubicacion articulo');
 insert into permiso(nombre)values('crear ubicacion articulo');
 insert into permiso(nombre)values('editar ubicacion articulo');
-insert into permiso(nombre)values('eliminar ubicacion articulo');
+insert into permiso(nombre)values('eliminar ubicacion articulo');--40
+
+insert into permiso(nombre)values('ver orden produccion');
+insert into permiso(nombre)values('crear orden produccion');
+insert into permiso(nombre)values('editar orden produccion');
+insert into permiso(nombre)values('eliminar orden produccion'); --44
 
 insert into permiso(nombre)values('ver proveedores');
 insert into permiso(nombre)values('crear proveedores');
 insert into permiso(nombre)values('editar proveedores');
-insert into permiso(nombre)values('eliminar proveedores');
+insert into permiso(nombre)values('eliminar proveedores');-- 48
 
-insert into permiso(nombre)values('ver sucursal');
-insert into permiso(nombre)values('crear sucursal');
-insert into permiso(nombre)values('editar sucursal');
-insert into permiso(nombre)values('eliminar sucursal');
-
-insert into permiso(nombre)values('ver filas');
-insert into permiso(nombre)values('crear filas');
-insert into permiso(nombre)values('editar filas');
-insert into permiso(nombre)values('eliminar filas');
+insert into permiso(nombre)values('ver orden de compra');
+insert into permiso(nombre)values('crear orden de compra');
+insert into permiso(nombre)values('editar orden de compra');
+insert into permiso(nombre)values('eliminar orden de compra'); --52
 
 insert into permiso(nombre)values('ver inventario');
 insert into permiso(nombre)values('crear inventario');
 insert into permiso(nombre)values('editar inventario');
-insert into permiso(nombre)values('eliminar inventario');
+insert into permiso(nombre)values('eliminar inventario'); --56
+
+insert into permiso(nombre)values('ver reportes');
+insert into permiso(nombre)values('crear reportes');
+insert into permiso(nombre)values('editar reportes');
+insert into permiso(nombre)values('eliminar reportes');-- 60
+
 -- +++++++++++++++++++++++++++++++++++++++++++++++
 insert into rol(nombre,funcion,responsabilidad) values('Administrador del sistema','Configurar y mantener el sistema MRP. Gestionar los permisos de usuario y la seguridad del sistema. Supervisar las actualizaciones y el mantenimiento del software.','responsabilidad');
 insert into rol(nombre,funcion,responsabilidad) values('Planificador de Producción','Crear y mantener el plan maestro de producción. Determinar las necesidades de materiales basándose en las órdenes de producción. Coordinar con otros departamentos para asegurar el cumplimiento de los plazos de producción.','responsabilidad');
@@ -396,3 +407,15 @@ insert into estado_orden_compra(descripcion)values('cancelado');
 insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(1,2,1,1,now());
 insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(2,1,1,2,now());
 insert into orden_compra(usuario_id_gen,usuario_id_ges,proveedor_id,estado_compra_id,fecha_hora)values(1,2,2,3,now());
+
+create table proveedor_materiales
+(
+	id serial,
+	proveedor_id integer,
+	material_id integer,
+	primary key (proveedor_id,material_id),
+	foreign key (material_id) references articulo(id),
+	foreign key (proveedor_id) references proveedor(id)
+);
+insert into proveedor_materiales(proveedor_id,material_id)values(1,1);
+insert into proveedor_materiales(proveedor_id,material_id)values(1,2);

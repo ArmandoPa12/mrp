@@ -38,7 +38,7 @@ class OrdenCompraController extends Controller
         $filePath = Storage::disk('public')->put('pdfs/compra', $file);
         $fileUrl = Storage::disk('public')->url($filePath);
         $datos = Orden_Compra::create([
-            'usuario_id_ge' => $request->input('usuario_id_ge'),
+            'usuario_id_gen' => $request->input('usuario_id_ge'),
             'usuario_id_ges' => $request->input('usuario_id_ges'),
             'estado_compra_id' => $request->input('estado_compra_id'),
             'proveedor_id' => $request->input('proveedor_id'),

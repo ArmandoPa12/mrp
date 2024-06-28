@@ -44,7 +44,7 @@ class ProveedorController extends Controller
         ]);
 
         $nuevo = Proveedor::create([
-            'articulo_id' => 1,
+            'articulo_id' => null,
             'nombre' => $validated['nombre'],
             'apellido' => $validated['apellido'],
             'celular' => $validated['celular'],
