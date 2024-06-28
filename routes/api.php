@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Compra\EstadoOrdenCompraController;
 use App\Http\Controllers\Compra\OrdenCompraController;
 use App\Http\Controllers\Compra\ProveedorController;
+use App\Http\Controllers\Compra\ProveedorMaterialController;
 use App\Http\Controllers\Proceso\ListaProcesoController;
 use App\Http\Controllers\Proceso\ProcesoController;
 use App\Http\Controllers\Produccion\EstadoProduccionController;
@@ -19,12 +20,14 @@ use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Usuario\PermisoController;
 use App\Models\Articulo\Articulo;
 use App\Models\Articulo\Tipo_Articulo;
+use App\Models\Compra\Proveedor;
 use App\Models\Proceso\Lista_Proceso;
 use App\Models\Produccion\Orden_Produccion;
 use App\Models\Ubicacion\Estante;
 use App\Models\Ubicacion\Tipo_Ubicacion;
 use App\Models\Ubicacion\Ubicacion;
 use App\Models\Ubicacion\Ubicacion_Articulo;
+use App\Models\Usuario\Permiso;
 use App\Models\Usuario\Rol;
 use App\Models\Usuario\Usuario;
 use Illuminate\Http\Request;
@@ -62,6 +65,9 @@ Route::apiResource('/estado-orden-compra',EstadoOrdenCompraController::class)->p
 Route::apiResource('/proveedor',ProveedorController::class)->parameter('proveedores','proveedor');
 Route::apiResource('/orden-compra',OrdenCompraController::class)->parameter('compras','compra');
 
+Route::apiResource('/lista',ProveedorMaterialController::class)->parameter('listas','lista');
+
+
 
 
 
@@ -72,6 +78,11 @@ Route::post('/logout',[AuthController::class,'logout']);
 
 
 Route::get('/test',function(){
-    $data = Ubicacion_Articulo::with(['estante','articulo'])->get();
+    $data = Permiso::all();
+    return $data;
+});
+
+Route::get('/example',function(){
+    $data = Proveedor::with('lista_materiales.material')->get();
     return $data;
 });

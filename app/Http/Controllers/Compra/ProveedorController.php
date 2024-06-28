@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Compra;
 
 use App\Http\Controllers\Controller;
 use App\Models\Compra\Proveedor;
+use App\Models\Compra\Proveedor_Materiales;
 use App\Traits\ApiResponse;
 use App\Traits\Bitacora;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class ProveedorController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Proveedor::all();
+        $data = Proveedor::with('lista_materiales.material')->get();
         $this->verListaBitacoraExitosa('PROVEEDOR',null,$request->header());
         return $this->successResponse($data,'lista');
     }
@@ -35,23 +36,29 @@ class ProveedorController extends Controller
 
         // $nuevo = Proveedor::create($request->all());
         $validated = $request->validate([
-            'articulos_id' => 'required|array',
+            'lista_materiales' => 'required|array',
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'celular' => 'required',
             'empresa' => 'required|string|max:255',
         ]);
-        $createdProveedores = [];
-        foreach ($validated['articulos_id'] as $articulo_id) {
-            $proveedor = Proveedor::create([
-                'articulo_id' => $articulo_id,
-                'nombre' => $validated['nombre'],
-                'apellido' => $validated['apellido'],
-                'celular' => $validated['celular'],
-                'empresa' => $validated['empresa'],
-            ]);
 
-            $createdProveedores[] = $proveedor;
+        $nuevo = Proveedor::create([
+            'articulo_id' => 1,
+            'nombre' => $validated['nombre'],
+            'apellido' => $validated['apellido'],
+            'celular' => $validated['celular'],
+            'empresa' => $validated['empresa'],
+        ]);
+
+        $createdProveedores = [];
+        foreach ($validated['lista_materiales'] as $articulo_id) {
+
+            $creado = Proveedor_Materiales::create([
+                'proveedor_id' => $nuevo->id,
+                'material_id' => $articulo_id
+            ]);
+            $createdProveedores[] = $creado;
         }
 
         $this->crearBitacoraExitosa('PROVEEDOR',null,$request->header());
@@ -68,9 +75,28 @@ class ProveedorController extends Controller
     public function update(Request $request, Proveedor $proveedor)
     {
         try{
-            $proveedor->update($request->all());
+            Proveedor_Materiales::where('proveedor_id', $proveedor->id)->delete();
+            // $proveedor->update($request->all());
+            $proveedor->update([
+                'nombre' => $request['nombre'],
+                'apellido' => $request['apellido'],
+                'celular' => $request['celular'],
+                'empresa' => $request['empresa'],
+            ]);
+
+            $createdProveedores = [];
+            foreach ($request['lista_materiales'] as $articulo_id) {
+
+                $creado = Proveedor_Materiales::create([
+                    'proveedor_id' => $proveedor->id,
+                    'material_id' => $articulo_id
+                ]);
+                $createdProveedores[] = $creado;
+            }
+
+
             $this->actualizarBitacoraExitosa('PROVEEDOR',$proveedor->id,$request->header());
-            return $this->successResponse($proveedor,'actualizado');
+            return $this->successResponse($createdProveedores,'actualizado');
         }catch(\Exception $e){
             return $this->notFoundResponse();
         }
@@ -85,7 +111,9 @@ class ProveedorController extends Controller
     public function destroy(Request $request,Proveedor $proveedor)
     {
         try{
+
             $c = $proveedor->id;
+            Proveedor_Materiales::where('proveedor_id', $proveedor->id)->delete();
             $proveedor->delete();
             $this->eliminarBitacoraExitosa('PROVEEDOR',$c,$request->header());
             return $this->successResponse(null,'eliminado');
